@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Estime e compare as emissões de carbono da sua viagem."
+    >
+    <title>Calculadora de Emissão de Carbono</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__content">
+        <a class="site-header__brand" href="./" aria-label="Calculadora de Emissão de Carbono - início">
+          <span class="site-header__icon" aria-hidden="true">🌱</span>
+          <span>Calculadora de Emissão de Carbono</span>
+        </a>
+        <p class="site-header__subtitle">Descubra o impacto ambiental da sua viagem.</p>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="intro__eyebrow">Viaje com mais consciência</p>
+        <h1 class="intro__title" id="page-title">Qual é o impacto da sua viagem?</h1>
+        <p class="intro__description">
+          Informe sua rota e compare a emissão estimada de diferentes meios de transporte.
+        </p>
+      </section>
+
+      <section class="trip-form-section" aria-labelledby="trip-form-title">
+        <div class="section-heading">
+          <p class="section-heading__step">01 — Sua viagem</p>
+          <h2 class="section-heading__title" id="trip-form-title">Dados da viagem</h2>
+          <p class="section-heading__description">
+            Escolha as cidades e informe a distância caso a rota não esteja cadastrada.
+          </p>
+        </div>
+
+        <form class="trip-form" id="trip-form" novalidate>
+          <div class="trip-form__route">
+            <div class="form-field autocomplete">
+              <label class="form-field__label" for="origin">Cidade de origem</label>
+              <input
+                class="form-field__input"
+                id="origin"
+                name="origin"
+                type="text"
+                placeholder="Ex.: Campinas"
+                autocomplete="off"
+                aria-autocomplete="list"
+                aria-controls="origin-suggestions"
+                aria-expanded="false"
+                aria-describedby="origin-error"
+                required
+              >
+              <ul
+                class="autocomplete__suggestions"
+                id="origin-suggestions"
+                role="listbox"
+                aria-label="Sugestões de cidades de origem"
+                hidden
+              ></ul>
+              <p class="form-field__error" id="origin-error" aria-live="polite"></p>
+            </div>
+
+            <span class="trip-form__route-icon" aria-hidden="true">→</span>
+
+            <div class="form-field autocomplete">
+              <label class="form-field__label" for="destination">Cidade de destino</label>
+              <input
+                class="form-field__input"
+                id="destination"
+                name="destination"
+                type="text"
+                placeholder="Ex.: São Paulo"
+                autocomplete="off"
+                aria-autocomplete="list"
+                aria-controls="destination-suggestions"
+                aria-expanded="false"
+                aria-describedby="destination-error"
+                required
+              >
+              <ul
+                class="autocomplete__suggestions"
+                id="destination-suggestions"
+                role="listbox"
+                aria-label="Sugestões de cidades de destino"
+                hidden
+              ></ul>
+              <p class="form-field__error" id="destination-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="trip-form__details">
+            <div class="form-field">
+              <label class="form-field__label" for="distance">Distância da viagem</label>
+              <div class="form-field__input-group">
+                <input
+                  class="form-field__input"
+                  id="distance"
+                  name="distance"
+                  type="number"
+                  min="0.01"
+                  step="any"
+                  inputmode="decimal"
+                  placeholder="Informe a distância"
+                  aria-describedby="distance-help distance-source distance-error"
+                  required
+                >
+                <span class="form-field__unit" aria-hidden="true">km</span>
+              </div>
+              <p class="form-field__hint" id="distance-help">
+                A distância da rota cadastrada será preenchida automaticamente. Se não houver rota, informe-a aqui.
+              </p>
+              <p class="form-field__source" id="distance-source" aria-live="polite">
+                Aguardando a seleção das cidades.
+              </p>
+              <p class="form-field__error" id="distance-error" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <fieldset class="transport-picker">
+            <legend class="transport-picker__legend">Meio de transporte utilizado</legend>
+            <p class="transport-picker__description" id="transport-help">
+              Selecione uma opção para calcular a emissão da sua viagem.
+            </p>
+            <div class="transport-picker__options" role="group" aria-describedby="transport-help transport-error">
+              <label class="transport-option" for="transport-bicycle">
+                <input
+                  class="transport-option__input"
+                  id="transport-bicycle"
+                  name="transport"
+                  type="radio"
+                  value="bicycle"
+                  required
+                >
+                <span class="transport-option__icon" aria-hidden="true">🚲</span>
+                <span class="transport-option__name">Bicicleta</span>
+              </label>
+              <label class="transport-option" for="transport-car">
+                <input
+                  class="transport-option__input"
+                  id="transport-car"
+                  name="transport"
+                  type="radio"
+                  value="car"
+                >
+                <span class="transport-option__icon" aria-hidden="true">🚗</span>
+                <span class="transport-option__name">Carro</span>
+              </label>
+              <label class="transport-option" for="transport-bus">
+                <input
+                  class="transport-option__input"
+                  id="transport-bus"
+                  name="transport"
+                  type="radio"
+                  value="bus"
+                >
+                <span class="transport-option__icon" aria-hidden="true">🚌</span>
+                <span class="transport-option__name">Ônibus</span>
+              </label>
+              <label class="transport-option" for="transport-truck">
+                <input
+                  class="transport-option__input"
+                  id="transport-truck"
+                  name="transport"
+                  type="radio"
+                  value="truck"
+                >
+                <span class="transport-option__icon" aria-hidden="true">🚚</span>
+                <span class="transport-option__name">Caminhão</span>
+              </label>
+            </div>
+            <p class="form-field__error" id="transport-error" aria-live="polite"></p>
+          </fieldset>
+
+          <div class="trip-form__actions">
+            <button class="button button--primary" type="submit">
+              Calcular emissão
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <p class="trip-form__message" id="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <div class="results" id="results" aria-live="polite">
+        <section class="result-section trip-result" id="trip-result-section" aria-labelledby="trip-result-title" hidden>
+          <div class="section-heading">
+            <p class="section-heading__step">02 — Seu resultado</p>
+            <h2 class="section-heading__title" id="trip-result-title">Resultado da viagem</h2>
+          </div>
+
+          <div class="trip-result__card">
+            <div class="trip-result__route">
+              <p class="trip-result__location">
+                <span class="trip-result__label">Origem</span>
+                <span class="trip-result__value" id="result-origin"></span>
+              </p>
+              <span class="trip-result__arrow" aria-hidden="true">→</span>
+              <p class="trip-result__location">
+                <span class="trip-result__label">Destino</span>
+                <span class="trip-result__value" id="result-destination"></span>
+              </p>
+            </div>
+            <dl class="trip-result__details">
+              <div class="trip-result__detail">
+                <dt>Distância</dt>
+                <dd id="result-distance"></dd>
+              </div>
+              <div class="trip-result__detail">
+                <dt>Origem da distância</dt>
+                <dd id="result-distance-source"></dd>
+              </div>
+              <div class="trip-result__detail">
+                <dt>Meio de transporte</dt>
+                <dd id="result-transport"></dd>
+              </div>
+              <div class="trip-result__detail">
+                <dt>Fator de emissão</dt>
+                <dd id="result-factor"></dd>
+              </div>
+            </dl>
+            <div class="trip-result__emission">
+              <span class="trip-result__emission-label">Emissão estimada da viagem</span>
+              <strong class="trip-result__emission-value" id="result-emission-kg"></strong>
+              <span class="trip-result__emission-secondary" id="result-emission-tonnes"></span>
+            </div>
+          </div>
+          <button class="button button--secondary" id="new-simulation" type="button">
+            Nova simulação
+          </button>
+        </section>
+
+        <section class="result-section comparison" id="comparison-section" aria-labelledby="comparison-title" hidden>
+          <div class="section-heading">
+            <p class="section-heading__step">03 — Compare as opções</p>
+            <h2 class="section-heading__title" id="comparison-title">Emissão por meio de transporte</h2>
+            <p class="section-heading__description">
+              Compare a emissão estimada para a mesma distância percorrida.
+            </p>
+          </div>
+
+          <ul class="comparison__list" id="comparison-list">
+            <li class="comparison-item" data-transport="bicycle">
+              <div class="comparison-item__heading">
+                <span class="comparison-item__icon" aria-hidden="true">🚲</span>
+                <span class="comparison-item__name">Bicicleta</span>
+                <span class="comparison-item__badge" hidden>Selecionado</span>
+                <span class="comparison-item__emission" id="comparison-bicycle"></span>
+              </div>
+              <div class="comparison-item__track" role="img" aria-label="Emissão de bicicleta em comparação com o meio mais poluente">
+                <span class="comparison-item__bar" id="bar-bicycle"></span>
+              </div>
+              <p class="comparison-item__summary" id="summary-bicycle"></p>
+            </li>
+            <li class="comparison-item" data-transport="car">
+              <div class="comparison-item__heading">
+                <span class="comparison-item__icon" aria-hidden="true">🚗</span>
+                <span class="comparison-item__name">Carro</span>
+                <span class="comparison-item__badge" hidden>Selecionado</span>
+                <span class="comparison-item__emission" id="comparison-car"></span>
+              </div>
+              <div class="comparison-item__track" role="img" aria-label="Emissão de carro em comparação com o meio mais poluente">
+                <span class="comparison-item__bar" id="bar-car"></span>
+              </div>
+              <p class="comparison-item__summary" id="summary-car"></p>
+            </li>
+            <li class="comparison-item" data-transport="bus">
+              <div class="comparison-item__heading">
+                <span class="comparison-item__icon" aria-hidden="true">🚌</span>
+                <span class="comparison-item__name">Ônibus</span>
+                <span class="comparison-item__badge" hidden>Selecionado</span>
+                <span class="comparison-item__emission" id="comparison-bus"></span>
+              </div>
+              <div class="comparison-item__track" role="img" aria-label="Emissão de ônibus em comparação com o meio mais poluente">
+                <span class="comparison-item__bar" id="bar-bus"></span>
+              </div>
+              <p class="comparison-item__summary" id="summary-bus"></p>
+            </li>
+            <li class="comparison-item" data-transport="truck">
+              <div class="comparison-item__heading">
+                <span class="comparison-item__icon" aria-hidden="true">🚚</span>
+                <span class="comparison-item__name">Caminhão</span>
+                <span class="comparison-item__badge" hidden>Selecionado</span>
+                <span class="comparison-item__emission" id="comparison-truck"></span>
+              </div>
+              <div class="comparison-item__track" role="img" aria-label="Emissão de caminhão em comparação com o meio mais poluente">
+                <span class="comparison-item__bar" id="bar-truck"></span>
+              </div>
+              <p class="comparison-item__summary" id="summary-truck"></p>
+            </li>
+          </ul>
+          <p class="comparison__note">
+            Estimativas didáticas baseadas em fatores fixos; não consideram ocupação, carga, combustível ou tráfego.
+          </p>
+        </section>
+
+        <section class="result-section carbon-credits" id="carbon-credits-section" aria-labelledby="carbon-credits-title" hidden>
+          <div class="section-heading">
+            <p class="section-heading__step">04 — Compensação estimada</p>
+            <h2 class="section-heading__title" id="carbon-credits-title">Créditos de carbono</h2>
+            <p class="section-heading__description">
+              Uma estimativa matemática da quantidade e do custo para compensar a emissão do meio selecionado.
+            </p>
+          </div>
+
+          <div class="carbon-credits__card">
+            <dl class="carbon-credits__details">
+              <div class="carbon-credits__detail">
+                <dt>Emissão do transporte selecionado</dt>
+                <dd id="credits-emission"></dd>
+              </div>
+              <div class="carbon-credits__detail">
+                <dt>Créditos necessários</dt>
+                <dd id="credits-quantity"></dd>
+              </div>
+              <div class="carbon-credits__detail">
+                <dt>Valor estimado por crédito</dt>
+                <dd id="credits-unit-price"></dd>
+              </div>
+            </dl>
+            <div class="carbon-credits__total">
+              <span class="carbon-credits__total-label">Custo estimado da compensação</span>
+              <strong class="carbon-credits__total-value" id="credits-total"></strong>
+            </div>
+          </div>
+          <p class="carbon-credits__disclaimer">
+            Os valores apresentados são estimativas baseadas nos fatores de emissão configurados na aplicação.
+            A compensação efetiva depende da aquisição de créditos de carbono válidos e certificados.
+            A aplicação não comercializa créditos, não realiza compras e não certifica neutralização de carbono.
+          </p>
+        </section>
+      </div>
+
+      <aside class="model-note" aria-label="Sobre os cálculos">
+        <p>
+          <strong>Sobre esta estimativa:</strong>
+          os fatores de emissão são parâmetros didáticos e ilustrativos, não representam médias oficiais universais
+          e não consideram características específicas do veículo ou da viagem.
+        </p>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <p>Calculadora de Emissão de Carbono — estimativas para fins informativos.</p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
